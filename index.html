@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Liona — Cinnamoroll Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <div class="logo" aria-hidden="false">
+        <a href="#home" style="display:inline-flex;align-items:center;gap:10px;">
+          <img src="cinnamoroll.svg" alt="Cinnamoroll icon" />
+          <span>Liona</span>
+        </a>
+      </div>
+      <nav>
+        <div class="nav-menu" role="navigation" aria-label="Main Navigation">
+          <a href="#home" class="active">Home</a>
+          <a href="#about">About Me</a>
+          <a href="#portfolio">Portfolio</a>
+          <a href="#contact">Contact Me</a>
+        </div>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main>
+    <section id="home" class="hero" aria-label="Hero section">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-content container">
+        <h1>Liona's Project</h1>
+        <p>Welcome! Here you'll find my projects, portfolio highlights, and how to contact me. I make simple, pretty, and functional web designs.</p>
+        <div class="buttons" role="group" aria-label="Primary actions">
+          <button class="btn btn-primary" data-target="#portfolio">Explore Now</button>
+          <button class="btn btn-secondary" data-target="#contact">Contact Me</button>
+        </div>
+      </div>
+
+      <div class="scroll-indicator" aria-hidden="true">
+        <div class="scroll-dot active" data-section="home"></div>
+        <div class="scroll-dot" data-section="about"></div>
+        <div class="scroll-dot" data-section="portfolio"></div>
+        <div class="scroll-dot" data-section="contact"></div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="section-content">
+          <p>I'm a student at SMKN 3 MANADO, majoring in Software Engineering. I enjoy creating pastel, friendly interfaces and learning new front-end techniques.</p>
+          <div style="margin-top:14px"><button class="btn btn-secondary" onclick="scrollToSection('#portfolio')">Learn More</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio">
+      <div class="container">
+        <h2 class="section-title">My Portfolio</h2>
+        <div class="section-content"><p>Check out some of my latest projects and designs I'm currently working on.</p></div>
+
+        <div class="portfolio-grid" aria-live="polite">
+        <a class="portfolio-item" href="https://game-pearl-chi.vercel.app/" target="_blank">
+    <img src="images/project1.png" alt="Tangkap Kotak Game">
+    <h3>Project One</h3>
+    <p>"Tangkap Kotak" Game</p>
+ </a>
+
+<a class="portfolio-item" href="https://to-do-list-mk-ten.vercel.app/" target="_blank">
+    <img src="images/project2.png" alt="To Do List">
+    <h3>Project Two</h3>
+    <p>To Do List</p>
+</a>
+
+<a class="portfolio-item" href="https://test-puce-gamma-szpyq6f40c.vercel.app/" target="_blank">
+    <img src="images/project3.png" alt="Website Bucin">
+    <h3>Project Three</h3>
+    <p>Website Bucin</p>
+</a>
+
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Contact Me</h2>
+        <div class="section-content"><p>Have a project? Let's talk — send me a short message below.</p></div>
+
+        <div class="contact-form" aria-label="Contact form">
+          <form onsubmit="event.preventDefault(); alert('Thanks! (demo)')">
+            <div class="form-group"><input type="text" placeholder="Your Name" required></div>
+            <div class="form-group"><input type="email" placeholder="Your Email" required></div>
+            <div class="form-group"><textarea rows="5" placeholder="Your Message" required></textarea></div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container"><p>&copy; 2025 Brenettya Liona Lasano. All rights reserved.</p></div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    menuToggle.addEventListener('click', () => {
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      navMenu.style.display = expanded ? 'none' : 'flex';
+    });
+
+    // Smooth scroll helpers
+    function scrollToSection(id){
+      const el = document.querySelector(id);
+      if(!el) return;
+      window.scrollTo({top: el.offsetTop - 70, behavior: 'smooth'});
+    }
+
+    document.querySelectorAll('.nav-menu a').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.querySelectorAll('.nav-menu a').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+        scrollToSection(a.getAttribute('href'));
+      });
+    });
+
+    // Hero buttons
+    document.querySelectorAll('.buttons .btn').forEach(btn=>{
+      btn.addEventListener('click', ()=> scrollToSection(btn.getAttribute('data-target')));
+    });
+
+    // Scroll indicator dots
+    const scrollDots = document.querySelectorAll('.scroll-dot');
+    const sections = document.querySelectorAll('main section');
+    window.addEventListener('scroll', ()=>{
+      let current = '';
+      sections.forEach(section=>{
+        const top = section.offsetTop - 120;
+        if(pageYOffset >= top) current = section.id;
+      });
+      scrollDots.forEach(dot=>{
+        dot.classList.toggle('active', dot.getAttribute('data-section')===current);
+      });
+    });
+
+    // Click dots
+    scrollDots.forEach(dot=>{
+      dot.addEventListener('click', ()=>{
+        scrollToSection('#' + dot.getAttribute('data-section'));
+      });
+    });
+  </script>
+</body>
+</html>
